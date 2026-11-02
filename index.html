@@ -47,6 +47,20 @@ h1,h2,h3,h4,p{margin:0}
 #rotateOv h2{font-family:var(--ff-d);font-size:25px;letter-spacing:.06em;animation:pulseTxt 2.6s ease-in-out infinite}
 #rotateOv p{font-size:12px;color:rgba(255,255,255,.62);max-width:300px;line-height:1.65}
 @keyframes pulseTxt{50%{opacity:.55}}
+/* ============ ЗУМ ФОТО БЛЮДА ============ */
+.zoom-ov{position:absolute;inset:0;z-index:96;display:grid;place-items:center;background:rgba(8,11,17,.74);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s}
+.zoom-ov.on{opacity:1;pointer-events:auto}
+.zoom-card{display:flex;flex-direction:column;align-items:center;gap:12px;transform:scale(.86);transition:transform .32s cubic-bezier(.34,1.5,.64,1)}
+.zoom-ov.on .zoom-card{transform:scale(1)}
+.zoom-wrap{position:relative;padding:8px}
+.zoom-wrap::before{content:'';position:absolute;inset:-2px;border-radius:50%;border:3px solid var(--shu);opacity:0;animation:zring 1.1s ease-out .1s 2}
+@keyframes zring{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.22);opacity:0}}
+.zoom-ph{width:min(64vw,290px);height:min(64vw,290px);border-radius:50%;object-fit:cover;background:var(--paper2);border:5px solid var(--shu);box-shadow:0 0 0 4px rgba(226,69,44,.22),0 26px 60px -18px rgba(0,0,0,.9);display:block}
+.zoom-ic{display:grid;place-items:center;color:#6c5f45;background:linear-gradient(150deg,var(--paper2),#e3d8c1)}
+.zoom-cap{background:rgba(247,242,231,.96);border-radius:8px;padding:9px 16px;text-align:center;max-width:82%;box-shadow:0 10px 30px -12px rgba(0,0,0,.8)}
+.zoom-cap b{display:block;font-size:14px;font-weight:800;line-height:1.3}
+.zoom-cap span{display:block;font-size:10.5px;color:var(--tx2);margin-top:3px;font-variant-numeric:tabular-nums}
+.zoom-hint{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 .topbar{position:relative;z-index:20;background:var(--indigo);background-image:var(--wave);color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 22px -12px rgba(0,0,0,.9)}
 .mark{width:36px;height:36px;flex:none;border-radius:50%;background:var(--shu);display:grid;place-items:center;font-family:var(--ff-d);font-size:21px;color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.16) inset;transform:rotate(-4deg);position:relative;overflow:hidden}
 .mark img,.gmark img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;pointer-events:none}
@@ -118,7 +132,8 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 .dish.has{background:var(--white);border-color:rgba(226,69,44,.4);box-shadow:0 6px 16px -12px var(--shu2)}
 .dish:active{transform:scale(.988)}
 .dish.locked{opacity:.62}
-.dish-ic{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(150deg,var(--paper2),#e3d8c1);color:#6c5f45;position:relative;overflow:hidden}
+.dish-ic{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(150deg,var(--paper2),#e3d8c1);color:#6c5f45;position:relative;overflow:hidden;cursor:pointer;transition:transform .18s}
+.dish-ic:active{transform:scale(.9)}
 .dish.has .dish-ic{background:linear-gradient(150deg,#fbe4de,#f6cec3);color:var(--shu2)}
 .dish-ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .dish-ic svg{width:32px;height:32px}
@@ -157,7 +172,7 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 .qk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .qk{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:7px;padding:8px;transition:.2s}
 .qk.has{border-color:rgba(226,69,44,.45);background:#fff;box-shadow:0 4px 12px -8px var(--shu2)}
-.qk-ic{width:34px;height:34px;border-radius:50%;background:var(--paper2);display:grid;place-items:center;color:#6c5f45;flex:none;position:relative;overflow:hidden}
+.qk-ic{width:34px;height:34px;border-radius:50%;background:var(--paper2);display:grid;place-items:center;color:#6c5f45;flex:none;position:relative;overflow:hidden;cursor:pointer}
 .qk.has .qk-ic{background:linear-gradient(150deg,#fbe4de,#f6cec3);color:var(--shu2)}
 .qk-ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .qk-ic svg{width:22px;height:22px}
@@ -459,6 +474,9 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
   <div class="toasts" id="toasts"></div>
   <div class="stamp-ov" id="stampOv"><div class="sk"><div><b id="stampB"></b><em id="stampE"></em></div></div></div>
 
+  <!-- ЗУМ ФОТО: открывается тапом по картинке блюда -->
+  <div class="zoom-ov" id="zoomOv" data-act="closezoom"></div>
+
   <div class="gate" id="gate">
     <div class="noren l"></div><div class="noren r"></div>
     <div class="gate-in">
@@ -486,6 +504,7 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 const L = {
 es:{tag:'Buffet a la carta · All you can eat',hello:'¡Bienvenido!',scan:'Escanea el QR de tu mesa.',demo:'Modo demo: elige una mesa manualmente.',enter:'Empezar a pedir',choose:'Elige tu mesa',enterBtn:'Entrar',
 rotateT:'Pon el teléfono en vertical',rotateS:'La carta está diseñada en vertical: así se ve completa y es cómoda de usar.',
+tapClose:'Toca para cerrar',
 slotM:'Migdia',slotN:'Nit',adults:'Adultos',kids:'Niños',
 all:'Todo',incl:'Incluido en el buffet',apart:'Se paga aparte',nightOnly:'Solo noche / fin de semana',
 waste:'2 € de penalización por cada ración no consumida. Se pueden repetir los platos.',mindrink:'Consumo mínimo: 1 bebida por persona.',
@@ -513,6 +532,7 @@ call:'Llamar al camarero',callT:'¿Qué necesitas?',callOpts:[['🙋','Llamar al
 table:'Tu mesa',session:'Sesión iniciada a las',roundsSent:'rondas enviadas',changeTable:'Cambiar de mesa (demo)',qr:'QR de esta mesa',copy:'Copiar enlace',copied:'Enlace copiado',reset:'Cerrar sesión y vaciar la mesa',resetOk:'Mesa reiniciada',newSession:'nueva sesión',welcome:'¡bienvenidos!',roundSent:'Ronda enviada a cocina',roundServed:'Ronda servida en la mesa',maxMsg:'Máximo',perPerson:'raciones por persona',maxUds:'uds. por ronda',emptyCart:'Vaciar selección',sendTo:'Enviar a cocina',included:'incluido en el buffet',apartGrp:'Se paga aparte',thanks:'Gracias · No desperdiciar la comida, por favor',locked:'Solo en buffet de noche / fin de semana',paxShort:'comensales',foot:'Se pueden repetir los platos · No desperdiciar la comida, por favor.',stampB:'EN COCINA',stampE:'SUSHI HE II'},
 ca:{tag:'Bufet a la carta · All you can eat',hello:'Benvingut!',scan:'Escaneja el QR de la teva taula.',demo:'Mode demo: tria una taula manualment.',enter:'Comença a demanar',choose:'Tria la teva taula',enterBtn:'Entrar',
 rotateT:'Posa el telèfon en vertical',rotateS:'La carta està dissenyada en vertical: així es veu completa i és còmoda d\'usar.',
+tapClose:'Toca per tancar',
 slotM:'Migdia',slotN:'Nit',adults:'Adults',kids:'Nens',
 all:'Tot',incl:'Inclòs al bufet',apart:'Es paga a part',nightOnly:'Només nit / cap de setmana',
 waste:'2 € de penalització per cada ració no consumida. Es poden repetir els plats.',mindrink:'Consum mínim: 1 beguda per persona.',
@@ -540,6 +560,7 @@ call:'Cridar el cambrer',callT:'Què necessites?',callOpts:[['🙋','Cridar el c
 table:'La teva taula',session:'Sessió iniciada a les',roundsSent:'rondes enviades',changeTable:'Canviar de taula (demo)',qr:'QR d\'aquesta taula',copy:'Copiar enllaç',copied:'Enllaç copiat',reset:'Tancar sessió i buidar la taula',resetOk:'Taula reiniciada',newSession:'sessió nova',welcome:'benvinguts!',roundSent:'Ronda enviada a cuina',roundServed:'Ronda servida a la taula',maxMsg:'Màxim',perPerson:'racions per persona',maxUds:'uds. per ronda',emptyCart:'Buidar la selecció',sendTo:'Enviar a cuina',included:'inclòs al bufet',apartGrp:'Es paga a part',thanks:'Gràcies · No desaprofiteu el menjar',locked:'Només al bufet de nit / cap de setmana',paxShort:'comensals',foot:'Es poden repetir els plats · No desaprofiteu el menjar.',stampB:'A CUINA',stampE:'SUSHI HE II'},
 en:{tag:'Buffet a la carta · All you can eat',hello:'Welcome!',scan:'Scan the QR code on your table.',demo:'Demo mode: pick a table manually.',enter:'Start ordering',choose:'Choose your table',enterBtn:'Enter',
 rotateT:'Hold your phone upright',rotateS:'The menu is designed in portrait mode so you can see everything comfortably.',
+tapClose:'Tap to close',
 slotM:'Lunch',slotN:'Dinner',adults:'Adults',kids:'Kids',
 all:'All',incl:'Included in the buffet',apart:'Paid separately',nightOnly:'Evening / weekend only',
 waste:'€2 penalty for each unfinished portion. Dishes can be repeated.',mindrink:'Minimum consumption: 1 drink per person.',
@@ -801,7 +822,7 @@ const ICONS = {
  tea:'<path d="M11 21h21v8a10.5 10.5 0 0 1-21 0v-8Z"/><path d="M32 23h4a4 4 0 0 1 0 8h-4"/><path d="M9 40h26"/><path d="M18 15c0-2 2-2 2-4M26 15c0-2 2-2 2-4"/>'
 };
 const icon = (k,s=32) => `<svg viewBox="0 0 48 48" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[k]||ICONS.bowl}</svg>`;
-/* Фото: PNG/<номер>.png ; если файл не найден — картинка убирается и остаётся иконка */
+/* Фото: PNG/<номер>.png ; если файла нет — остаётся иконка */
 const ph = n => `<img src="${PHOTO.dir}${n}${PHOTO.ext}" alt="" loading="lazy" onerror="this.remove()">`;
 
 /* ============ ПИКТОГРАММЫ АЛЛЕРГЕНОВ (1-14) ============ */
@@ -886,6 +907,23 @@ function fly(from){
   d.animate([{transform:'translate(-50%,0) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${dx}px),${dy}px) scale(.45)`,opacity:0}],{duration:600,easing:'cubic-bezier(.4,0,.25,1)'}).onfinish=()=>d.remove();
 }
 
+/* ============ ЗУМ ФОТО ============ */
+function openZoom(n){
+  const it = BY_N[n]; if(!it) return;
+  const li = LANGS.indexOf(S.lang);
+  const ov = $('#zoomOv');
+  ov.innerHTML = `<div class="zoom-card">
+    <div class="zoom-wrap"><img class="zoom-ph" src="${PHOTO.dir}${n}${PHOTO.ext}" alt=""></div>
+    <div class="zoom-cap"><b>${it.nm[li]||it.nm[0]}</b><span>№ ${n}${it.pz?' · '+it.pz+' '+t('pieces'):''}${it.p?' · '+eur(it.p):''}</span></div>
+    <span class="zoom-hint">${t('tapClose')}</span>
+  </div>`;
+  const img = ov.querySelector('img.zoom-ph');
+  img.addEventListener('error', ()=>{ img.outerHTML = `<div class="zoom-ph zoom-ic">${icon(it.ic,120)}</div>`; });
+  ov.classList.add('on');
+  buzz(10);
+}
+function closeZoom(){ $('#zoomOv').classList.remove('on'); }
+
 /* ============ ОВЕРЛЕЙ ОРИЕНТАЦИИ ============ */
 const mqRotate = window.matchMedia('(orientation: landscape) and (max-height: 560px)');
 function updateRotateOv(){ const ov = $('#rotateOv'); if(ov) ov.hidden = !mqRotate.matches; }
@@ -929,7 +967,7 @@ function rowHTML(it){
   const q = S.cart[it.n]||0, sep = !!CAT_BY[it.c].sep, lock = isLocked(it.n);
   const li = LANGS.indexOf(S.lang);
   return `<article class="dish reveal ${q?'has':''} ${lock?'locked':''}" data-row="${it.n}">
-    <div class="dish-ic">${ph(it.n)}${icon(it.ic)}<span class="dish-num">${it.n}</span></div>
+    <div class="dish-ic" data-act="zoom" data-n="${it.n}">${ph(it.n)}${icon(it.ic)}<span class="dish-num">${it.n}</span></div>
     <div class="dish-main">
       <h3 class="dish-name">${it.nm[li]||it.nm[0]}</h3>
       ${Array.isArray(it.ds)&&it.ds[li]?`<p class="dish-desc">${it.ds[li]}</p>`:''}
@@ -1033,7 +1071,7 @@ function sendOrder(){
   const items = cartEntries(); if(!items.length) return;
   S.rounds.push({id:Date.now(), ts:Date.now(), items});
   S.cart = {}; save();
-  closeSheet(); renderMenu(); renderCartBar(); renderRounds(); renderBill();
+  closeSheet(); closeZoom(); renderMenu(); renderCartBar(); renderRounds(); renderBill();
   const ov = $('#stampOv'); ov.classList.remove('on'); void ov.offsetWidth; ov.classList.add('on');
   buzz([14,60,22]);
   setTimeout(()=>toast(t('roundSent')), 500);
@@ -1048,7 +1086,7 @@ function renderDrinksSheet(){
     <div class="qk-grid">${QUICK.map(n=>{
       const it = BY_N[n], q = S.cart[n]||0;
       return `<div class="qk ${q?'has':''}">
-        <div class="qk-ic">${ph(n)}${icon(it.ic)}</div>
+        <div class="qk-ic" data-act="zoom" data-n="${n}">${ph(n)}${icon(it.ic)}</div>
         <div class="qk-nm">${it.nm[li]||it.nm[0]}<em>${eur(it.p)}</em></div>
         <div class="qk-act">${q?`<div class="mini"><button data-act="sub" data-n="${n}">−</button><b>${q}</b><button data-act="add" data-n="${n}">+</button></div>`:`<button class="add sm" data-act="add" data-n="${n}">+</button>`}</div>
       </div>`;
@@ -1250,6 +1288,8 @@ document.addEventListener('click', e => {
   switch(a){
     case 'add': setQty(n, 1, el); break;
     case 'sub': setQty(n, -1); break;
+    case 'zoom': openZoom(n); break;
+    case 'closezoom': closeZoom(); break;
     case 'allerg': goAllergens(el); break;
     case 'cat': activeCat = v; renderCats(); renderMenu(); main.scrollTo({top:0,behavior:'smooth'}); break;
     case 'tab': switchTab(v); break;
