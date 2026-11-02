@@ -48,7 +48,8 @@ h1,h2,h3,h4,p{margin:0}
 #rotateOv p{font-size:12px;color:rgba(255,255,255,.62);max-width:300px;line-height:1.65}
 @keyframes pulseTxt{50%{opacity:.55}}
 .topbar{position:relative;z-index:20;background:var(--indigo);background-image:var(--wave);color:#fff;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;display:flex;align-items:center;gap:9px;box-shadow:0 6px 22px -12px rgba(0,0,0,.9)}
-.mark{width:36px;height:36px;flex:none;border-radius:50%;background:var(--shu);display:grid;place-items:center;font-family:var(--ff-d);font-size:21px;color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.16) inset;transform:rotate(-4deg)}
+.mark{width:36px;height:36px;flex:none;border-radius:50%;background:var(--shu);display:grid;place-items:center;font-family:var(--ff-d);font-size:21px;color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.16) inset;transform:rotate(-4deg);position:relative;overflow:hidden}
+.mark img,.gmark img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;pointer-events:none}
 .brand h1{font-family:var(--ff-d);font-size:17px;letter-spacing:.14em;line-height:1}
 .brand span{display:block;font-size:8.5px;letter-spacing:.12em;color:rgba(255,255,255,.5);margin-top:3px;text-transform:uppercase}
 .topbar .sp{flex:1}
@@ -117,10 +118,11 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 .dish.has{background:var(--white);border-color:rgba(226,69,44,.4);box-shadow:0 6px 16px -12px var(--shu2)}
 .dish:active{transform:scale(.988)}
 .dish.locked{opacity:.62}
-.dish-ic{width:50px;height:50px;border-radius:5px;display:grid;place-items:center;background:linear-gradient(150deg,var(--paper2),#e3d8c1);color:#6c5f45;position:relative}
+.dish-ic{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(150deg,var(--paper2),#e3d8c1);color:#6c5f45;position:relative;overflow:hidden}
 .dish.has .dish-ic{background:linear-gradient(150deg,#fbe4de,#f6cec3);color:var(--shu2)}
+.dish-ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .dish-ic svg{width:32px;height:32px}
-.dish-num{position:absolute;top:-5px;left:-5px;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums;box-shadow:0 2px 5px -2px #000}
+.dish-num{position:absolute;top:-5px;left:-5px;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums;box-shadow:0 2px 5px -2px #000;z-index:2}
 .dish-main{min-width:0}
 .dish-name{font-size:14px;font-weight:700;line-height:1.25;letter-spacing:-.01em}
 .dish-desc{font-size:11px;color:var(--tx2);line-height:1.45;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -155,8 +157,9 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 .qk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .qk{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:7px;padding:8px;transition:.2s}
 .qk.has{border-color:rgba(226,69,44,.45);background:#fff;box-shadow:0 4px 12px -8px var(--shu2)}
-.qk-ic{width:34px;height:34px;border-radius:6px;background:var(--paper2);display:grid;place-items:center;color:#6c5f45;flex:none}
+.qk-ic{width:34px;height:34px;border-radius:50%;background:var(--paper2);display:grid;place-items:center;color:#6c5f45;flex:none;position:relative;overflow:hidden}
 .qk.has .qk-ic{background:linear-gradient(150deg,#fbe4de,#f6cec3);color:var(--shu2)}
+.qk-ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .qk-ic svg{width:22px;height:22px}
 .qk-nm{flex:1;min-width:0;font-size:11px;font-weight:700;line-height:1.25}
 .qk-nm em{font-style:normal;display:block;font-size:10px;color:var(--tx2);font-weight:600;margin-top:2px}
@@ -325,7 +328,7 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
 .gate-in{position:relative;z-index:2;text-align:center;color:#fff;padding:30px 24px;width:100%;transition:opacity .35s,transform .5s}
 .gate.open .gate-in{opacity:0;transform:scale(1.06)}
 .gate .hello{font-family:var(--ff-d);font-size:13px;letter-spacing:.3em;color:var(--gold);opacity:0;animation:fu .7s .1s forwards}
-.gate .gmark{width:64px;height:64px;margin:18px auto 14px;border-radius:50%;background:var(--shu);display:grid;place-items:center;font-family:var(--ff-d);font-size:36px;box-shadow:0 0 0 3px rgba(255,255,255,.14) inset,0 14px 30px -12px var(--shu2);opacity:0;animation:stampIn .7s .25s cubic-bezier(.34,1.6,.64,1) forwards}
+.gate .gmark{width:64px;height:64px;margin:18px auto 14px;border-radius:50%;background:var(--shu);display:grid;place-items:center;font-family:var(--ff-d);font-size:36px;box-shadow:0 0 0 3px rgba(255,255,255,.14) inset,0 14px 30px -12px var(--shu2);opacity:0;animation:stampIn .7s .25s cubic-bezier(.34,1.6,.64,1) forwards;position:relative;overflow:hidden}
 .gate h1{font-family:var(--ff-d);font-size:40px;letter-spacing:.14em;line-height:1;text-indent:.14em;opacity:0;animation:fu .7s .4s forwards}
 .gate .sub{font-size:9.5px;letter-spacing:.26em;color:rgba(255,255,255,.55);margin-top:12px;text-transform:uppercase;opacity:0;animation:fu .7s .5s forwards}
 .gate .rule{width:52px;height:1px;background:rgba(255,255,255,.25);margin:22px auto;opacity:0;animation:fu .7s .6s forwards}
@@ -363,7 +366,8 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
   <div class="ghost">和</div>
 
   <header class="topbar">
-    <div class="mark">和</div>
+    <!-- ЛОГОТИП: файл PNG/logo.png; если файла нет, остаётся иероглиф -->
+    <div class="mark"><img src="PNG/logo.png" alt="" onerror="this.remove()">和</div>
     <div class="brand"><h1>SUSHI HE II</h1><span>Av. dels Dolors 4 · Manresa</span></div>
     <div class="sp"></div>
     <button class="icon-btn" id="bellBtn" data-act="call" aria-label="Llamar">
@@ -459,7 +463,7 @@ main{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolli
     <div class="noren l"></div><div class="noren r"></div>
     <div class="gate-in">
       <div class="hello" id="gHello"></div>
-      <div class="gmark">和</div>
+      <div class="gmark"><img src="PNG/logo.png" alt="" onerror="this.remove()">和</div>
       <h1>SUSHI HE II</h1>
       <div class="sub" id="gSub"></div>
       <div class="rule"></div>
@@ -569,8 +573,15 @@ const HOLIDAYS = [
  '2027-01-01','2027-01-06','2027-03-26','2027-03-29','2027-05-01','2027-06-24','2027-08-15','2027-09-11','2027-10-12','2027-11-01','2027-12-08','2027-12-25','2027-12-26'
 ];
 const PRICE = {migdia:15.95, nit:20.95, infantil:11.95};
-/* 10 быстрых плиток напитков: agua, vichy, cola, cola zero, fanta n, fanta l, nestea, damm, sangría vino, sangría cava */
 const QUICK = [135,136,137,147,138,139,141,132,145,146];
+
+/* ============================================================
+   ФОТО БЛЮД И ЛОГОТИП
+   Папка и расширение файлов. Сейчас: папка PNG, файлы .png
+   Примеры: PNG/47.png, PNG/145.png, PNG/logo.png
+   Если файла нет — автоматически показывается иконка.
+   ============================================================ */
+const PHOTO = {dir:'PNG/', ext:'.png'};
 
 /* ============ DATOS ============ */
 const CATS = [
@@ -790,6 +801,8 @@ const ICONS = {
  tea:'<path d="M11 21h21v8a10.5 10.5 0 0 1-21 0v-8Z"/><path d="M32 23h4a4 4 0 0 1 0 8h-4"/><path d="M9 40h26"/><path d="M18 15c0-2 2-2 2-4M26 15c0-2 2-2 2-4"/>'
 };
 const icon = (k,s=32) => `<svg viewBox="0 0 48 48" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[k]||ICONS.bowl}</svg>`;
+/* Фото: PNG/<номер>.png ; если файл не найден — картинка убирается и остаётся иконка */
+const ph = n => `<img src="${PHOTO.dir}${n}${PHOTO.ext}" alt="" loading="lazy" onerror="this.remove()">`;
 
 /* ============ ПИКТОГРАММЫ АЛЛЕРГЕНОВ (1-14) ============ */
 const AICONS = [
@@ -811,7 +824,7 @@ const AICONS = [
 const aicon = i => `<svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">${AICONS[i]||''}</svg>`;
 
 /* ============ ESTADO ============ */
-const KEY = 'sushihe2_v11';
+const KEY = 'sushihe2_v12';
 const fresh = mesa => ({mesa, lang:null, slot:null, adults:2, kids:0, cart:{}, rounds:[], bill:null, drinksIntro:false, start:Date.now()});
 let S = fresh(null);
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
@@ -901,7 +914,7 @@ function updateStripVisibility(){
   else if(y > 80) w.classList.add('up');
 }
 
-/* ============ CARTA (без поиска: только категории) ============ */
+/* ============ CARTA ============ */
 let activeCat = 'todos';
 function renderCats(){
   $('#cats').innerHTML = `<button class="cat ${activeCat==='todos'?'on':''}" data-act="cat" data-v="todos">${t('all')}</button>` +
@@ -916,7 +929,7 @@ function rowHTML(it){
   const q = S.cart[it.n]||0, sep = !!CAT_BY[it.c].sep, lock = isLocked(it.n);
   const li = LANGS.indexOf(S.lang);
   return `<article class="dish reveal ${q?'has':''} ${lock?'locked':''}" data-row="${it.n}">
-    <div class="dish-ic">${icon(it.ic)}<span class="dish-num">${it.n}</span></div>
+    <div class="dish-ic">${ph(it.n)}${icon(it.ic)}<span class="dish-num">${it.n}</span></div>
     <div class="dish-main">
       <h3 class="dish-name">${it.nm[li]||it.nm[0]}</h3>
       ${Array.isArray(it.ds)&&it.ds[li]?`<p class="dish-desc">${it.ds[li]}</p>`:''}
@@ -1027,7 +1040,7 @@ function sendOrder(){
   setTimeout(()=>switchTab('pedido'), 900);
 }
 
-/* ============ ШТОРКА «¿QUÉ VAS A BEBER?» (10 плиток) ============ */
+/* ============ ШТОРКА «¿QUÉ VAS A BEBER?» ============ */
 function renderDrinksSheet(){
   sheet.dataset.kind='drinks';
   const li = LANGS.indexOf(S.lang);
@@ -1035,7 +1048,7 @@ function renderDrinksSheet(){
     <div class="qk-grid">${QUICK.map(n=>{
       const it = BY_N[n], q = S.cart[n]||0;
       return `<div class="qk ${q?'has':''}">
-        <div class="qk-ic">${icon(it.ic)}</div>
+        <div class="qk-ic">${ph(n)}${icon(it.ic)}</div>
         <div class="qk-nm">${it.nm[li]||it.nm[0]}<em>${eur(it.p)}</em></div>
         <div class="qk-act">${q?`<div class="mini"><button data-act="sub" data-n="${n}">−</button><b>${q}</b><button data-act="add" data-n="${n}">+</button></div>`:`<button class="add sm" data-act="add" data-n="${n}">+</button>`}</div>
       </div>`;
